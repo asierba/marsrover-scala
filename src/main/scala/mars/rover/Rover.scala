@@ -9,6 +9,7 @@ case class Rover(position: Position, direction: Direction) {
       case Direction.NORTH => Rover(Position(position.x, position.y + moves), direction)
       case Direction.WEST => Rover(Position(position.x - moves, position.y), direction)
       case Direction.EAST => Rover(Position(position.x + moves, position.y), direction)
+      case Direction.SOUTH => Rover(Position(position.x, position.y - moves), direction)
     }
   }
 
@@ -18,5 +19,5 @@ case class Position(x: Int, y: Int)
 
 object Direction extends Enumeration {
   type Direction = Value
-  val NORTH, EAST, WEST = Value
+  val NORTH, EAST, WEST, SOUTH = Value
 }
