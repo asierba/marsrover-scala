@@ -99,4 +99,9 @@ class RoverSpec extends AnyFlatSpec with should.Matchers {
     Rover(position, Direction.WEST).executeCommands("R") shouldBe
       Rover(position, Direction.NORTH)
   }
+
+  "Rover" should "work with multiple commands" in {
+    Rover(Position(0, 0), Direction.NORTH).executeCommands("FLFFFRFLB") shouldBe
+      Rover(Position(-2, 2), Direction.WEST)
+  }
 }
