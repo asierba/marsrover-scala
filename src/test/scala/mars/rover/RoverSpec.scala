@@ -65,4 +65,9 @@ class RoverSpec extends AnyFlatSpec with should.Matchers {
     Rover(Position(3, 1), Direction.WEST).executeCommands("BBBBBB") shouldBe
       Rover(Position(9, 1), Direction.WEST)
   }
+
+  "Rover" should "move backward and forward at the same time" in {
+    Rover(Position(3, 1), Direction.NORTH).executeCommands("BFFF") shouldBe
+      Rover(Position(3, 3), Direction.NORTH)
+  }
 }
