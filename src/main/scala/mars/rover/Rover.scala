@@ -11,12 +11,12 @@ object Direction extends Enumeration {
 
 case class Rover(position: Position, direction: Direction) {
   def executeCommands(commands: String): Rover = commands.length match {
-      case 0 => this
-      case 1 => executeCommand(commands.head)
-      case _ =>
-        val rover = executeCommand(commands.head)
-        rover executeCommands commands.tail
-    }
+    case 0 => this
+    case 1 => executeCommand(commands.head)
+    case _ =>
+      val rover = executeCommand(commands.head)
+      rover executeCommands commands.tail
+  }
 
   private def executeCommand(command: Char) = command match {
     case 'L' => moveLeft
@@ -33,10 +33,10 @@ case class Rover(position: Position, direction: Direction) {
   }
 
   private def moveBackwards = direction match {
-    case Direction.NORTH => Rover(Position(position.x, position.y + -1), direction)
-    case Direction.WEST => Rover(Position(position.x - -1, position.y), direction)
-    case Direction.EAST => Rover(Position(position.x + -1, position.y), direction)
-    case Direction.SOUTH => Rover(Position(position.x, position.y - -1), direction)
+    case Direction.NORTH => Rover(Position(position.x, position.y - 1), direction)
+    case Direction.WEST => Rover(Position(position.x + 1, position.y), direction)
+    case Direction.EAST => Rover(Position(position.x - 1, position.y), direction)
+    case Direction.SOUTH => Rover(Position(position.x, position.y + 1), direction)
   }
 
   private def moveRight = direction match {
