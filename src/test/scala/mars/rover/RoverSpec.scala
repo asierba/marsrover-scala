@@ -70,4 +70,9 @@ class RoverSpec extends AnyFlatSpec with should.Matchers {
     Rover(Position(3, 1), Direction.NORTH).executeCommands("BFFF") shouldBe
       Rover(Position(3, 3), Direction.NORTH)
   }
+
+  "Rover" should "stay still when no commands" in {
+    Rover(Position(3, 1), Direction.NORTH).executeCommands("") shouldBe
+      Rover(Position(3, 1), Direction.NORTH)
+  }
 }

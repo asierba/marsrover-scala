@@ -4,12 +4,16 @@ import mars.rover.Direction.Direction
 
 case class Rover(position: Position, direction: Direction) {
   def executeCommands(commands: String): Rover = {
-    val firstCommand = commands.head
-    if (commands.length > 1) {
+    if (commands.length == 0) {
+      this
+    }
+    else if (commands.length > 1) {
+      val firstCommand = commands.head
       val restOfCommands = commands.tail
       val rover = executeCommand(firstCommand)
       rover executeCommands restOfCommands
     } else {
+      val firstCommand = commands.head
       executeCommand(firstCommand)
     }
   }
