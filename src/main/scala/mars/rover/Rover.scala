@@ -4,7 +4,8 @@ import mars.rover.Direction.Direction
 
 case class Rover(position: Position, direction: Direction) {
   def executeCommands(commands: String) = {
-    Rover(Position(position.x + 1,2), Direction.EAST)
+    val moves = commands.length
+    Rover(Position(position.x + moves, position.y), Direction.EAST)
   }
 
 }
