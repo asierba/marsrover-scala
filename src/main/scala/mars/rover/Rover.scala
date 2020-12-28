@@ -5,13 +5,10 @@ import mars.rover.Direction.Direction
 case class Rover(position: Position, direction: Direction) {
   def executeCommands(commands: String) = {
     val moves = commands.length
-    if (direction == Direction.WEST) {
-      Rover(Position(position.x - moves, position.y), direction)
-    }
-    else if (direction == Direction.NORTH) {
-      Rover(Position(position.x, position.y + moves), direction)
-    } else {
-      Rover(Position(position.x + moves, position.y), direction)
+    direction match {
+      case Direction.NORTH => Rover(Position(position.x, position.y + moves), direction)
+      case Direction.WEST => Rover(Position(position.x - moves, position.y), direction)
+      case Direction.EAST => Rover(Position(position.x + moves, position.y), direction)
     }
   }
 
