@@ -20,6 +20,13 @@ case class Rover(position: Position, direction: Direction) {
         case Direction.EAST => Rover(position, Direction.NORTH)
         case Direction.SOUTH => Rover(position, Direction.EAST)
       }
+    } else if (command == 'R') {
+      direction match {
+        case Direction.NORTH => Rover(position, Direction.EAST)
+        case Direction.WEST => Rover(position, Direction.NORTH)
+        case Direction.EAST => Rover(position, Direction.SOUTH)
+        case Direction.SOUTH => Rover(position, Direction.WEST)
+      }
     } else {
       val realMoves = if (command == 'B') -1 else 1
       direction match {

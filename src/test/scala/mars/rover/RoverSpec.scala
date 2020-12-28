@@ -87,4 +87,16 @@ class RoverSpec extends AnyFlatSpec with should.Matchers {
     Rover(position, Direction.EAST).executeCommands("L") shouldBe
       Rover(position, Direction.NORTH)
   }
+
+  "Rover" should "rotates right" in {
+    val position = Position(3, 1)
+    Rover(position, Direction.NORTH).executeCommands("R") shouldBe
+      Rover(position, Direction.EAST)
+    Rover(position, Direction.EAST).executeCommands("R") shouldBe
+      Rover(position, Direction.SOUTH)
+    Rover(position, Direction.SOUTH).executeCommands("R") shouldBe
+      Rover(position, Direction.WEST)
+    Rover(position, Direction.WEST).executeCommands("R") shouldBe
+      Rover(position, Direction.NORTH)
+  }
 }
