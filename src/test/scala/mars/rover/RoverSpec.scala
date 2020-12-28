@@ -9,4 +9,13 @@ class RoverSpec extends AnyFlatSpec with should.Matchers {
     rover.direction shouldBe Direction.EAST
     rover.position shouldBe Position(4,2)
   }
+
+  "Rover" should "move forward east" in {
+    val rover = Rover(Position(4,2), Direction.EAST)
+
+    val newRover = rover.executeCommands("F")
+
+    newRover.direction shouldBe Direction.EAST
+    newRover.position shouldBe Position(5,2)
+  }
 }
