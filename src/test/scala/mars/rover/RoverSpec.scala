@@ -104,4 +104,12 @@ class RoverSpec extends AnyFlatSpec with should.Matchers {
     Rover(Position(0, 0), Direction.NORTH).executeCommands("FLFFFRFLB") shouldBe
       Rover(Position(-2, 2), Direction.WEST)
   }
+
+  "Rover" should "stop at obstacles" in {
+    val obstacles = List(Position(0,3))
+    val rover = Rover(Position(0,0), Direction.NORTH, obstacles)
+    val movedRover = rover.executeCommands("FFF")
+    movedRover.position shouldBe Position(0,2)
+    movedRover.stopped shouldBe true
+  }
 }
