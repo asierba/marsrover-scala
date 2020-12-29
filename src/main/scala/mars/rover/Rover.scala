@@ -18,33 +18,32 @@ case class Rover(position: Position, direction: Direction, obstacles: List[Posit
       rover executeCommands commands.tail
   }
 
-  private def executeCommand(command: Char) = command match {
-    case 'L' => rotateLeft
-    case 'R' => rotateRight
-    case 'F' => moveForward
-    case 'B' => moveBackwards
+  private def executeCommand(command: Char) = {
+    if (stopped)
+      this
+    else
+      command match {
+        case 'L' => rotateLeft
+        case 'R' => rotateRight
+        case 'F' => moveForward
+        case 'B' => moveBackwards
+      }
   }
 
-  private def newPosition(direction: Direction, increment: Int) = {
-    direction match {
-      case Direction.NORTH => Position(position.x, position.y + increment)
-      case Direction.WEST => Position(position.x - increment, position.y)
-      case Direction.EAST => Position(position.x + increment, position.y)
-      case Direction.SOUTH => Position(position.x, position.y - increment)
-    }
+  private def newPosition(direction: Direction, increment: Int) = direction match {
+    case Direction.NORTH => Position(position.x, position.y + increment)
+    case Direction.WEST => Position(position.x - increment, position.y)
+    case Direction.EAST => Position(position.x + increment, position.y)
+    case Direction.SOUTH => Position(position.x, position.y - increment)
   }
 
   private def move(forward: Boolean) = {
     val increment = if (forward) 1 else -1;
-    if (stopped) {
-      this
-    } else {
-      val nextPosition = newPosition(direction, increment)
-      if (obstacles.contains(nextPosition))
-        Rover(position, direction, obstacles, true)
-      else
-        Rover(nextPosition, direction, obstacles)
-    }
+    val nextPosition = newPosition(direction, increment)
+    if (obstacles.contains(nextPosition))
+      Rover(position, direction, obstacles, true)
+    else
+      Rover(nextPosition, direction, obstacles)
   }
 
   private def moveForward = move(true)
