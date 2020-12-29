@@ -25,31 +25,37 @@ case class Rover(position: Position, direction: Direction, obstacles: List[Posit
     case 'B' => moveBackwards
   }
 
-  private def newPosition = direction match {
-    case Direction.NORTH => Position(position.x, position.y + 1)
-    case Direction.WEST => Position(position.x - 1, position.y)
-    case Direction.EAST => Position(position.x + 1, position.y)
-    case Direction.SOUTH => Position(position.x, position.y - 1)
+  private def newPosition(direction: Direction, increment: Int) = {
+    direction match {
+      case Direction.NORTH => Position(position.x, position.y + increment)
+      case Direction.WEST => Position(position.x - increment, position.y)
+      case Direction.EAST => Position(position.x + increment, position.y)
+      case Direction.SOUTH => Position(position.x, position.y - increment)
+    }
   }
 
   private def moveForward = {
     if (stopped) {
       this
     } else {
-      val nextPosition = newPosition
+      val nextPosition = newPosition(direction, 1)
       if (obstacles.contains(nextPosition))
         Rover(position, direction, obstacles, true)
       else
         Rover(nextPosition, direction, obstacles)
     }
-
   }
 
-  private def moveBackwards = direction match {
-    case Direction.NORTH => Rover(Position(position.x, position.y - 1), direction, obstacles)
-    case Direction.WEST => Rover(Position(position.x + 1, position.y), direction, obstacles)
-    case Direction.EAST => Rover(Position(position.x - 1, position.y), direction, obstacles)
-    case Direction.SOUTH => Rover(Position(position.x, position.y + 1), direction, obstacles)
+  private def moveBackwards = {
+    if (stopped) {
+      this
+    } else {
+      val nextPosition = newPosition(direction, -1)
+      if (obstacles.contains(nextPosition))
+        Rover(position, direction, obstacles, true)
+      else
+        Rover(nextPosition, direction, obstacles)
+    }
   }
 
   private def moveRight = direction match {
