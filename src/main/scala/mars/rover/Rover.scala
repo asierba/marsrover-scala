@@ -33,11 +33,16 @@ case class Rover(position: Position, direction: Direction, obstacles: List[Posit
   }
 
   private def moveForward = {
-    val nextPosition = newPosition
-    if (obstacles.contains(nextPosition))
-      Rover(position, direction, obstacles, true)
-    else
-      Rover(nextPosition, direction, obstacles)
+    if (stopped) {
+      this
+    } else {
+      val nextPosition = newPosition
+      if (obstacles.contains(nextPosition))
+        Rover(position, direction, obstacles, true)
+      else
+        Rover(nextPosition, direction, obstacles)
+    }
+
   }
 
   private def moveBackwards = direction match {
@@ -48,16 +53,16 @@ case class Rover(position: Position, direction: Direction, obstacles: List[Posit
   }
 
   private def moveRight = direction match {
-    case Direction.NORTH => Rover(position, Direction.EAST, obstacles)
-    case Direction.WEST => Rover(position, Direction.NORTH, obstacles)
-    case Direction.EAST => Rover(position, Direction.SOUTH, obstacles)
-    case Direction.SOUTH => Rover(position, Direction.WEST, obstacles)
+    case Direction.NORTH => Rover(position, Direction.EAST, obstacles, stopped)
+    case Direction.WEST => Rover(position, Direction.NORTH, obstacles, stopped)
+    case Direction.EAST => Rover(position, Direction.SOUTH, obstacles, stopped)
+    case Direction.SOUTH => Rover(position, Direction.WEST, obstacles, stopped)
   }
 
   private def moveLeft = direction match {
-    case Direction.NORTH => Rover(position, Direction.WEST, obstacles)
-    case Direction.WEST => Rover(position, Direction.SOUTH, obstacles)
-    case Direction.EAST => Rover(position, Direction.NORTH, obstacles)
-    case Direction.SOUTH => Rover(position, Direction.EAST, obstacles)
+    case Direction.NORTH => Rover(position, Direction.WEST, obstacles, stopped)
+    case Direction.WEST => Rover(position, Direction.SOUTH, obstacles, stopped)
+    case Direction.EAST => Rover(position, Direction.NORTH, obstacles, stopped)
+    case Direction.SOUTH => Rover(position, Direction.EAST, obstacles, stopped)
   }
 }
