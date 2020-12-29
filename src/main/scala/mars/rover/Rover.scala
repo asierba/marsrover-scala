@@ -32,19 +32,9 @@ case class Rover(position: Position, direction: Direction, obstacles: List[Posit
 
   private def moveBackwards: Rover = moveOne(false)
 
-  private def rotateRight: Rover = direction match {
-    case Direction.NORTH => Rover(position, Direction.EAST, obstacles, stopped)
-    case Direction.WEST => Rover(position, Direction.NORTH, obstacles, stopped)
-    case Direction.EAST => Rover(position, Direction.SOUTH, obstacles, stopped)
-    case Direction.SOUTH => Rover(position, Direction.WEST, obstacles, stopped)
-  }
+  private def rotateRight: Rover = Rover(position, nextDirectionRight(direction), obstacles, stopped)
 
-  private def rotateLeft: Rover = direction match {
-    case Direction.NORTH => Rover(position, Direction.WEST, obstacles, stopped)
-    case Direction.WEST => Rover(position, Direction.SOUTH, obstacles, stopped)
-    case Direction.EAST => Rover(position, Direction.NORTH, obstacles, stopped)
-    case Direction.SOUTH => Rover(position, Direction.EAST, obstacles, stopped)
-  }
+  private def rotateLeft: Rover = Rover(position, nextDirectionLeft(direction), obstacles, stopped)
 
   private def moveOne(forward: Boolean): Rover = {
     val increment = if (forward) 1 else -1;
@@ -60,5 +50,19 @@ case class Rover(position: Position, direction: Direction, obstacles: List[Posit
     case Direction.WEST => Position(position.x - increment, position.y)
     case Direction.EAST => Position(position.x + increment, position.y)
     case Direction.SOUTH => Position(position.x, position.y - increment)
+  }
+
+  private def nextDirectionRight(direction: Direction): Direction = direction match {
+    case Direction.NORTH => Direction.EAST
+    case Direction.WEST => Direction.NORTH
+    case Direction.EAST => Direction.SOUTH
+    case Direction.SOUTH => Direction.WEST
+  }
+
+  private def nextDirectionLeft(direction: Direction): Direction = direction match {
+    case Direction.NORTH => Direction.WEST
+    case Direction.WEST => Direction.SOUTH
+    case Direction.EAST => Direction.NORTH
+    case Direction.SOUTH => Direction.EAST
   }
 }
