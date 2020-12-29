@@ -19,8 +19,8 @@ case class Rover(position: Position, direction: Direction, obstacles: List[Posit
   }
 
   private def executeCommand(command: Char) = command match {
-    case 'L' => moveLeft
-    case 'R' => moveRight
+    case 'L' => rotateLeft
+    case 'R' => rotateRight
     case 'F' => moveForward
     case 'B' => moveBackwards
   }
@@ -34,11 +34,12 @@ case class Rover(position: Position, direction: Direction, obstacles: List[Posit
     }
   }
 
-  private def moveForward = {
+  private def move(forward: Boolean) = {
+    val increment = if (forward) 1 else -1;
     if (stopped) {
       this
     } else {
-      val nextPosition = newPosition(direction, 1)
+      val nextPosition = newPosition(direction, increment)
       if (obstacles.contains(nextPosition))
         Rover(position, direction, obstacles, true)
       else
@@ -46,26 +47,18 @@ case class Rover(position: Position, direction: Direction, obstacles: List[Posit
     }
   }
 
-  private def moveBackwards = {
-    if (stopped) {
-      this
-    } else {
-      val nextPosition = newPosition(direction, -1)
-      if (obstacles.contains(nextPosition))
-        Rover(position, direction, obstacles, true)
-      else
-        Rover(nextPosition, direction, obstacles)
-    }
-  }
+  private def moveForward = move(true)
 
-  private def moveRight = direction match {
+  private def moveBackwards = move(false)
+
+  private def rotateRight = direction match {
     case Direction.NORTH => Rover(position, Direction.EAST, obstacles, stopped)
     case Direction.WEST => Rover(position, Direction.NORTH, obstacles, stopped)
     case Direction.EAST => Rover(position, Direction.SOUTH, obstacles, stopped)
     case Direction.SOUTH => Rover(position, Direction.WEST, obstacles, stopped)
   }
 
-  private def moveLeft = direction match {
+  private def rotateLeft = direction match {
     case Direction.NORTH => Rover(position, Direction.WEST, obstacles, stopped)
     case Direction.WEST => Rover(position, Direction.SOUTH, obstacles, stopped)
     case Direction.EAST => Rover(position, Direction.NORTH, obstacles, stopped)
